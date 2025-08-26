@@ -32,7 +32,7 @@ export function FeaturedProductsSection({
                         No Products Available
                     </h2>
                     <p className="text-gray-600 max-w-md mx-auto">
-                        We&apos;re currently updating our product catalog. Please check back soon.
+                        We're currently updating our product catalog. Please check back soon.
                     </p>
                 </div>
             </section>
@@ -80,7 +80,7 @@ export function FeaturedProductsSection({
                     {displayProducts.map((product, index) => (
                         <Card 
                             key={product.id}
-                            className="group hover:shadow-xl transition-all duration-500 ease-out hover:-translate-y-1 overflow-hidden border border-gray-200 bg-white"
+                            className="group h-min hover:shadow-xl transition-all duration-500 ease-out hover:-translate-y-1 overflow-hidden border border-gray-200 bg-white"
                             style={{ 
                                 animationDelay: `${index * 100}ms`,
                                 animationFillMode: 'both'
@@ -112,29 +112,35 @@ export function FeaturedProductsSection({
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             </div>
                             
-                            {/* Card Content */}
-                            <CardContent className="p-4 sm:p-6 flex flex-col h-full">
-                                <div className="flex-grow">
-                                    <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-2 sm:mb-3 text-gray-900 group-hover:text-green-600 transition-colors duration-300 line-clamp-2">
+                            <CardContent className="flex flex-col h-full">
+                                {/* This wrapper for the text no longer has "flex-grow" */}
+                                <div>
+                                    <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold  text-gray-900 group-hover:text-green-600 transition-colors duration-300 line-clamp-2">
                                         {product.name}
                                     </h3>
-                                    
+                                    {product.summary && (
+                                        <p className="text-sm text-gray-600 line-clamp-4 leading-relaxed">
+                                            {product.summary}
+                                        </p>
+                                    )}
                                 </div>
                                 
-                                {/* Bottom Section */}
-                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-auto pt-4 border-t border-gray-100">
+                                {/* This bottom div now has "mt-auto" to push it to the bottom of the card */}
+                                <div className="mt-2 flex items-center justify-between gap-3 border-t border-gray-100">
                                     <div className="flex items-center text-xs sm:text-sm text-gray-500 font-medium">
-                                        <span className="mr-1" aria-hidden="true">📍</span>
+                                        <span className="mr-1.5" aria-hidden="true">📍</span>
                                         <span className="truncate">
                                             Origin: {product.origin?.region || product.origin?.country || 'Various regions'}
                                         </span>
                                     </div>
+
                                     
-                                    <Button 
+                                </div>
+                                <Button 
                                         asChild 
                                         variant="outline" 
                                         size="sm" 
-                                        className="w-full sm:w-auto hover:bg-green-600 hover:text-white hover:border-green-600 transition-all duration-300 group/button"
+                                        className="flex-shrink-0 hover:bg-green-600 hover:text-white hover:border-green-600 transition-all duration-300 group/button m-4"
                                         aria-label={`View details for ${product.name}`}
                                     >
                                         <Link href={`/products/${product.id}`} className="flex items-center justify-center">
@@ -142,7 +148,6 @@ export function FeaturedProductsSection({
                                             <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4 transition-transform group-hover/button:translate-x-1" />
                                         </Link>
                                     </Button>
-                                </div>
                             </CardContent>
                         </Card>
                     ))}
