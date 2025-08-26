@@ -32,7 +32,7 @@ export function FeaturedProductsSection({
                         No Products Available
                     </h2>
                     <p className="text-gray-600 max-w-md mx-auto">
-                        We're currently updating our product catalog. Please check back soon.
+                        We&apos;re currently updating our product catalog. Please check back soon.
                     </p>
                 </div>
             </section>
