@@ -1,13 +1,13 @@
 import HomePage from '@/components/HomePage'
-import productsData from '@/data/products.json'
+import { products } from "@/lib/data";
 
 export default function Home() {
 
-  const featuredProducts = productsData.slice(0, 3)
-  
+  const featuredProducts = products.slice(0, 3).map(p => ({ ...p }));
   return (
-    <div className="-mt-20">
+    <div>
+
       <HomePage featuredProducts={featuredProducts} />
     </div>
-    )
+  )
 }

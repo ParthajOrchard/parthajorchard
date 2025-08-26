@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge"
 import { Users, Globe, Award, Leaf, Shield } from "lucide-react"
 import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "About Us - PARTHAJ ORCHARD Pvt. Ltd.",
@@ -74,13 +75,14 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="relative order-1 lg:order-2">
-              <img
-                src="https://placehold.co/600x500/e2e8f0/e2e8f0?text=."
-                alt="PARTHAJ ORCHARD Pvt. Ltd. Operations"
-                width="600"
-                height="500"
-                className="rounded-lg shadow-lg w-full h-64 sm:h-80 lg:h-96 object-cover"
-              />
+
+              <Image
+                  src="https://placehold.co/600x500/e2e8f0/e2e8f0?text=."
+                  alt="PARTHAJ ORCHARD Pvt. Ltd. Operations"
+                  width="600"
+                  height="500"
+                  className={"rounded-lg shadow-lg w-full h-64 sm:h-80 lg:h-96 object-cover "}
+                />
             </div>
           </div>
         </div>
@@ -135,7 +137,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="order-2 lg:order-2">
-              <img
+              <Image
                 src="https://placehold.co/500x400/e2e8f0/e2e8f0?text=."
                 alt="Quality Control Process"
                 width="500"
@@ -153,7 +155,7 @@ export default function AboutPage() {
                   Though young, our company is built on a strong foundation of expertise in agriculture and international trade. We are dedicated to establishing robust relationships with farmers to ensure quality control from the ground up and deliver on our promise of excellence to every client.
                 </p>
                 <p>
-                  Our journey has just begun, and we are excited to grow into one of India's most trusted agricultural export companies, driven by our commitment to quality, integrity, and customer satisfaction.
+                  Our journey has just begun, and we are excited to grow into one of India&apos;s most trusted agricultural export companies, driven by our commitment to quality, integrity, and customer satisfaction.
                 </p>
               </div>
             </div>

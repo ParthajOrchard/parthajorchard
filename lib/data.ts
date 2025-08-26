@@ -1,4 +1,4 @@
-import { Product, type IProduct } from "./types"
+import { Product, type IProduct } from "@/lib/types"
 
 const productsData: IProduct[] = [
   {

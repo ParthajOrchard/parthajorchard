@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin, Globe } from "lucide-react"
+import Link from "next/link"
 
 export function Footer() {
   return (
@@ -36,29 +37,29 @@ export function Footer() {
             <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
             <ul className="space-y-1 sm:space-y-2">
               <li>
-                <a href="/" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                <Link href="/" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/products" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                <Link href="/products" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
                   Products
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/about" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                <Link href="/about" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                <Link href="/contact" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
                   Contact
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/certifications" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                <Link href="/certifications" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
                   Certifications
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -68,29 +69,29 @@ export function Footer() {
             <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Product Categories</h4>
             <ul className="space-y-1 sm:space-y-2">
               <li>
-                <a href="/products?category=Fruits-Vegetables" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
-                  Fruits & Vegetables
-                </a>
+                <Link href="/products" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                  Fruits
+                </Link>
               </li>
               <li>
-                <a href="/products?category=Cereals" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
-                  Cereals
-                </a>
-              </li>
-               <li>
-                <a href="/products?category=Honey" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
-                  Honey
-                </a>
+                <Link href="/products" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                  Vegetables
+                </Link>
               </li>
               <li>
-                <a href="/products?category=Dairy" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
-                  Dairy Products
-                </a>
+                <Link href="/products" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                  Grains
+                </Link>
               </li>
               <li>
-                <a href="/products?category=Cashew" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
-                  Cashew
-                </a>
+                <Link href="/products" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                  OilSeeds
+                </Link>
+              </li>
+              <li>
+                <Link href="/products" className="text-gray-300 hover:text-green-400 transition-colors text-sm">
+                  Spices
+                </Link>
               </li>
             </ul>
           </div>
@@ -102,12 +103,12 @@ export function Footer() {
               © 2024 PARTHAJ ORCHARD Pvt. Ltd. All rights reserved.
             </p>
             <div className="flex space-x-4 sm:space-x-6">
-              <a href="/privacy" className="text-gray-400 hover:text-green-400 text-xs sm:text-sm transition-colors">
+              <Link href="/privacy" className="text-gray-400 hover:text-green-400 text-xs sm:text-sm transition-colors">
                 Privacy Policy
-              </a>
-              <a href="/terms" className="text-gray-400 hover:text-green-400 text-xs sm:text-sm transition-colors">
+              </Link>
+              <Link href="/terms" className="text-gray-400 hover:text-green-400 text-xs sm:text-sm transition-colors">
                 Terms of Service
-              </a>
+              </Link>
             </div>
           </div>
         </div>

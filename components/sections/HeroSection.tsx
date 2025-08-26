@@ -1,9 +1,9 @@
-// components/sections/HeroSection.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import Link from 'next/link' // Import the Link component
 import { AnimatedBackground } from '@/components/ui/AnimatedBackground'
 import { TypewriterText } from '@/components/ui/TypewriterText'
 import { AnimatedStats } from '@/components/ui/AnimatedStats'
@@ -52,9 +52,10 @@ export function HeroSection() {
                                     size="lg" 
                                     className="bg-white/95 text-gray-900 hover:bg-white hover:scale-105 transition-all duration-300 shadow-xl w-full sm:w-auto backdrop-blur-sm"
                                 >
-                                    <a href="/products">
+                                    {/* Corrected: Replaced <a> with <Link> */}
+                                    <Link href="/products">
                                         Explore Products <ArrowRight className="ml-2 h-5 w-5" />
-                                    </a>
+                                    </Link>
                                 </Button>
                                 <Button
                                     asChild
@@ -62,7 +63,8 @@ export function HeroSection() {
                                     variant="outline"
                                     className="border-white/80 text-white hover:bg-white/20 hover:scale-105 transition-all duration-300 w-full sm:w-auto bg-transparent backdrop-blur-sm"
                                 >
-                                    <a href="/contact">Request Quote</a>
+                                    {/* Corrected: Replaced <a> with <Link> */}
+                                    <Link href="/contact">Request Quote</Link>
                                 </Button>
                             </div>
                         </div>

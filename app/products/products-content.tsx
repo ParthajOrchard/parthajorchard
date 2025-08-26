@@ -10,27 +10,50 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Search, Filter, ChevronDown, ChevronUp } from "lucide-react"
-import { products, getAllCategories, searchProducts, getProductsByCategory } from "@/lib/data"
+import { Search, ChevronDown, ChevronUp } from "lucide-react"
+import { products, getAllCategories, getProductsByCategory } from "@/lib/data"
 
 // Type definitions
 interface Product {
-  id: string
-  name: string
-  summary: string
-  hsCode: string
-  category: string
+  id: string;
+  name: string;
+  hsCode: string;
+  category: string;
+  summary: string;
+  notes?: string;
+  shelfLife: string;
+  storage: string;
+  certifications: string[];
   origin: {
-    region: string
-    [key: string]: any
-  }
+    country: string;
+    region: string;
+  };
+  specs: {
+    grade: string;
+    compliance: {
+      marketMRLs: string[];
+      gmo: string;
+      allergens: string;
+    };
+  };
+  packaging: {
+    options: string[];
+    containerLoadability: {
+      "20ft": number | string;
+      "40ft": number | string;
+    };
+  };
   trade: {
-    moq: string
-    [key: string]: any
-  }
-  getMainImage: () => string | null
-  getDisplayPrice: () => string
-  [key: string]: any
+    moq: string;
+    leadTime: string;
+    incoterms: string[];
+  };
+  // Methods from the class instance
+  getStructuredData: () => object;
+  getMainImage: () => string | null;
+  getGalleryImages: () => string[];
+  getKeySpecs: () => { label: string; value: string }[];
+  getDisplayPrice: () => string;
 }
 
 interface ProductCardProps {
@@ -308,7 +331,7 @@ export function ProductsContent() {
     const grouped: Record<string, Product[]> = {}
     
     categories.forEach((category: string) => {
-      let categoryProducts = getProductsByCategory(category)
+      const categoryProducts = getProductsByCategory(category)
       
       // Sort products
       categoryProducts.sort((a: Product, b: Product) => {
@@ -326,7 +349,7 @@ export function ProductsContent() {
     })
     
     return grouped
-  }, [sortBy])
+    }, [sortBy, categories])
 
   const totalProducts = useMemo(() => {
     if (!deferredSearchQuery) return products.length
@@ -456,7 +479,7 @@ export function ProductsContent() {
             <div className="text-sm text-gray-600">
               <span className="font-medium">{totalProducts}</span> products found
               {deferredSearchQuery && (
-                <span> for <span className="font-medium">"{deferredSearchQuery}"</span></span>
+                <span> for <span className="font-medium">&quot;{deferredSearchQuery}&quot;</span></span>
               )}
               <span className="text-gray-400 ml-2">
                 • {expandedCategories.size} of {categories.length} categories expanded
@@ -499,7 +522,7 @@ export function ProductsContent() {
                 No products found
               </h3>
               <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                We couldn't find any products matching your search criteria. 
+                We couldn&apos;t find any products matching your search criteria. 
                 Try adjusting your filters or search terms.
               </p>
               <Button onClick={handleClearFilters} size="lg">

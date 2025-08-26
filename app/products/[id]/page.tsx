@@ -11,9 +11,9 @@ import { generateProductMetadata } from "@/lib/seo"
 import type { Metadata } from "next"
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
@@ -23,8 +23,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const product = getProductById(params.id)
-
+  // Now we need to await the params Promise
+  const { id } = await params
+  const product = getProductById(id)
 
   if (!product) {
     return {
@@ -36,8 +37,9 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const product = getProductById(params.id)
-
+  // Now we need to await the params Promise
+  const { id } = await params
+  const product = getProductById(id)
 
   if (!product) {
     notFound()
