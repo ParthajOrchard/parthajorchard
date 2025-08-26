@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, useCallback, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -9,110 +9,418 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { Search, Filter } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Search, Filter, ChevronDown, ChevronUp } from "lucide-react"
 import { products, getAllCategories, searchProducts, getProductsByCategory } from "@/lib/data"
 
+// Type definitions
+interface Product {
+  id: string
+  name: string
+  summary: string
+  hsCode: string
+  category: string
+  origin: {
+    region: string
+    [key: string]: any
+  }
+  trade: {
+    moq: string
+    [key: string]: any
+  }
+  getMainImage: () => string | null
+  getDisplayPrice: () => string
+  [key: string]: any
+}
+
+interface ProductCardProps {
+  product: Product
+  priority?: boolean
+}
+
+interface CategorySectionProps {
+  category: string
+  products: Product[]
+  isExpanded: boolean
+  onToggle: () => void
+  searchQuery: string
+}
+
+// Product Card Component with Lazy Loading
+const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) => {
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageError, setImageError] = useState(false)
+  
+  return (
+    <Card className="group hover:shadow-lg transition-all duration-300 bg-white border border-gray-200 hover:border-gray-300">
+      <div className="relative overflow-hidden rounded-t-lg bg-gray-100">
+        {!imageLoaded && !imageError && (
+          <Skeleton className="w-full h-48 sm:h-56 lg:h-64" />
+        )}
+        <Image
+          src={product.getMainImage() || "/placeholder.svg"}
+          alt={product.name}
+          width={400}
+          height={300}
+          className={`w-full h-48 sm:h-56 lg:h-64 object-cover group-hover:scale-105 transition-transform duration-500 ${
+            !imageLoaded ? 'opacity-0' : 'opacity-100'
+          }`}
+          priority={priority}
+          loading={priority ? "eager" : "lazy"}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+          onLoad={() => setImageLoaded(true)}
+          onError={() => setImageError(true)}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkrHB0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+        />
+        {imageError && (
+          <div className="w-full h-48 sm:h-56 lg:h-64 flex items-center justify-center bg-gray-200">
+            <span className="text-gray-400 text-sm">Image unavailable</span>
+          </div>
+        )}
+        <Badge className="absolute top-3 left-3 bg-green-600 hover:bg-green-700 text-xs font-medium shadow-sm">
+          {product.category}
+        </Badge>
+      </div>
+      
+      <CardContent className="p-4 sm:p-6">
+        <div className="space-y-3">
+          <div>
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 line-clamp-2 leading-tight">
+              {product.name}
+            </h3>
+            <p className="text-xs sm:text-sm text-gray-500 font-mono">HSN: {product.hsCode}</p>
+          </div>
+          
+          <p className="text-gray-600 text-sm sm:text-base leading-relaxed line-clamp-3">
+            {product.summary}
+          </p>
+
+          <div className="grid grid-cols-2 gap-3 py-2 border-t border-gray-100">
+            <div className="text-center">
+              <p className="text-xs text-gray-500">Origin</p>
+              <p className="text-sm font-medium text-gray-900">{product.origin.region}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-xs text-gray-500">MOQ</p>
+              <p className="text-sm font-medium text-gray-900">{product.trade.moq}</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+            <div className="text-green-600 font-semibold text-base sm:text-lg">
+              {product.getDisplayPrice()}
+            </div>
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className="w-full sm:w-auto hover:bg-gray-50 border-gray-300"
+            >
+              <Link href={`/products/${product.id}`}>View Details</Link>
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+// Category Section Component
+const CategorySection: React.FC<CategorySectionProps> = ({ category, products, isExpanded, onToggle, searchQuery }) => {
+  const [displayCount, setDisplayCount] = useState(3)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  const filteredProducts = useMemo(() => {
+    if (!searchQuery) return products
+    return products.filter(
+      (product: Product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.hsCode.includes(searchQuery)
+    )
+  }, [products, searchQuery])
+
+  const displayedProducts = filteredProducts.slice(0, displayCount)
+  const hasMore = filteredProducts.length > displayCount
+
+  const handleShowMore = () => {
+    if (displayCount === 3) {
+      setDisplayCount(6)
+    } else {
+      setDisplayCount(filteredProducts.length)
+    }
+  }
+
+  const handleShowLess = () => {
+    setDisplayCount(3)
+    // Smooth scroll to section top
+    sectionRef.current?.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start',
+      inline: 'nearest' 
+    })
+  }
+
+  if (filteredProducts.length === 0) return null
+
+  return (
+    <section ref={sectionRef} className="mb-12 sm:mb-16">
+      {/* Category Header */}
+      <div className="flex items-center justify-between mb-6 sm:mb-8">
+        <div className="flex items-center gap-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 capitalize">
+            {category}
+          </h2>
+          <Badge variant="secondary" className="text-sm font-medium">
+            {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
+          </Badge>
+        </div>
+        
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onToggle}
+          className="text-gray-600 hover:text-gray-900"
+        >
+          {isExpanded ? (
+            <ChevronUp className="h-4 w-4 ml-2" />
+          ) : (
+            <ChevronDown className="h-4 w-4 ml-2" />
+          )}
+          {isExpanded ? 'Collapse' : 'Expand'}
+        </Button>
+      </div>
+
+      {/* Products Grid */}
+      {isExpanded && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            {displayedProducts.map((product: Product, index: number) => (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                priority={index < 3} // Prioritize first 3 images
+              />
+            ))}
+          </div>
+
+          {/* Show More/Less Buttons */}
+          {(hasMore || displayCount > 3) && (
+            <div className="flex justify-center gap-3 pt-4">
+              {hasMore && (
+                <Button
+                  onClick={handleShowMore}
+                  variant="outline"
+                  className="px-6 py-2 hover:bg-gray-50"
+                >
+                  {displayCount === 3 ? 'Show More' : 'Show All Products'}
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </Button>
+              )}
+              
+              {displayCount > 3 && (
+                <Button
+                  onClick={handleShowLess}
+                  variant="ghost"
+                  className="px-6 py-2 text-gray-600 hover:text-gray-900"
+                >
+                  Show Less
+                  <ChevronUp className="h-4 w-4 ml-2" />
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </section>
+  )
+}
+
+// Loading Skeleton Component
+const CategorySkeleton: React.FC = () => (
+  <section className="mb-12 sm:mb-16">
+    <div className="flex items-center justify-between mb-6 sm:mb-8">
+      <Skeleton className="h-8 w-48" />
+      <Skeleton className="h-6 w-20" />
+    </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <Card key={i} className="overflow-hidden">
+          <Skeleton className="w-full h-48 sm:h-56 lg:h-64" />
+          <CardContent className="p-4 sm:p-6">
+            <Skeleton className="h-6 w-3/4 mb-2" />
+            <Skeleton className="h-4 w-1/2 mb-3" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-2/3 mb-4" />
+            <div className="flex justify-between">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-8 w-24" />
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  </section>
+)
+
+// Main Component
 export function ProductsContent() {
   const searchParams = useSearchParams()
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "")
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") || "all")
+  const [searchQuery, setSearchQuery] = useState("")
   const [sortBy, setSortBy] = useState("name")
+  const [expandedCategories, setExpandedCategories] = useState(new Set())
+  const [isLoading, setIsLoading] = useState(true)
+  const [deferredSearchQuery, setDeferredSearchQuery] = useState("")
 
-  // Update search query when URL params change
+  // Initialize from URL params
   useEffect(() => {
-    const search = searchParams.get("search")
+    const search = searchParams.get("search") || ""
     const category = searchParams.get("category")
-    if (search) setSearchQuery(search)
-    if (category) setSelectedCategory(category)
+    
+    setSearchQuery(search)
+    setDeferredSearchQuery(search)
+    
+    if (category && category !== "all") {
+      setExpandedCategories(new Set([category]))
+    } else {
+      // Expand first 2 categories by default
+      const categories = getAllCategories()
+      setExpandedCategories(new Set(categories.slice(0, 2)))
+    }
+    
+    // Simulate initial loading
+    setTimeout(() => setIsLoading(false), 500)
   }, [searchParams])
 
-  const categories = ["all", ...getAllCategories()]
+  // Debounced search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDeferredSearchQuery(searchQuery)
+    }, 300)
 
-  const filteredAndSortedProducts = useMemo(() => {
-    let filtered = products
+    return () => clearTimeout(timer)
+  }, [searchQuery])
 
-    // Filter by search query
-    if (searchQuery) {
-      filtered = searchProducts(searchQuery)
-    }
+  const categories = getAllCategories()
 
-    // Filter by category
-    if (selectedCategory !== "all") {
-      filtered = selectedCategory === "all" ? filtered : getProductsByCategory(selectedCategory)
-      if (searchQuery) {
-        filtered = filtered.filter(
-          (product) =>
-            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.hsCode.includes(searchQuery),
-        )
-      }
-    }
-
-    // Sort products
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case "name":
-          return a.name.localeCompare(b.name)
-        case "category":
-          return a.category.localeCompare(b.category)
-        default:
-          return 0
-      }
+  const categorizedProducts = useMemo(() => {
+    const grouped: Record<string, Product[]> = {}
+    
+    categories.forEach((category: string) => {
+      let categoryProducts = getProductsByCategory(category)
+      
+      // Sort products
+      categoryProducts.sort((a: Product, b: Product) => {
+        switch (sortBy) {
+          case "name":
+            return a.name.localeCompare(b.name)
+          case "category":
+            return a.category.localeCompare(b.category)
+          default:
+            return 0
+        }
+      })
+      
+      grouped[category] = categoryProducts
     })
+    
+    return grouped
+  }, [sortBy])
 
-    return filtered
-  }, [searchQuery, selectedCategory, sortBy])
+  const totalProducts = useMemo(() => {
+    if (!deferredSearchQuery) return products.length
+    
+    return Object.values(categorizedProducts).flat().filter((product: Product) =>
+      product.name.toLowerCase().includes(deferredSearchQuery.toLowerCase()) ||
+      product.summary.toLowerCase().includes(deferredSearchQuery.toLowerCase()) ||
+      product.hsCode.includes(deferredSearchQuery)
+    ).length
+  }, [categorizedProducts, deferredSearchQuery])
+
+  const handleCategoryToggle = useCallback((category: string) => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(category)) {
+        newSet.delete(category)
+      } else {
+        newSet.add(category)
+      }
+      return newSet
+    })
+  }, [])
+
+  const handleExpandAll = () => {
+    setExpandedCategories(new Set(categories))
+  }
+
+  const handleCollapseAll = () => {
+    setExpandedCategories(new Set())
+  }
+
+  const handleClearFilters = () => {
+    setSearchQuery("")
+    setDeferredSearchQuery("")
+    setSortBy("name")
+    setExpandedCategories(new Set(categories.slice(0, 2)))
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[rgb(249,250,251)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <Skeleton className="h-8 w-64 mb-4" />
+          <Skeleton className="h-6 w-96 mb-8" />
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Skeleton className="h-10 sm:col-span-2" />
+              <Skeleton className="h-10" />
+              <Skeleton className="h-10" />
+            </div>
+          </div>
+          {Array.from({ length: 2 }).map((_, i) => (
+            <CategorySkeleton key={i} />
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Our Products</h1>
-          <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-            Explore our comprehensive range of premium agricultural products for export.
+        <header className="mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            Explore Products
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-3xl">
+            Explore our comprehensive range of premium agricultural products for export, 
+            organized by category for easy browsing.
           </p>
-        </div>
+        </header>
 
         {/* Filters and Search */}
-        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6 sm:mb-8">
-          <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 mb-8 sm:mb-12">
+          <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 mb-4">
             {/* Search */}
             <div className="sm:col-span-2">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
                   type="text"
-                  placeholder="Search products..."
+                  placeholder="Search products, categories, or HSN codes..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 text-sm sm:text-base"
+                  className="pl-10 text-sm sm:text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
-            </div>
-
-            {/* Category Filter */}
-            <div>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="text-sm sm:text-base">
-                  <Filter className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category === "all" ? "All Categories" : category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
             </div>
 
             {/* Sort */}
             <div>
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="text-sm sm:text-base">
+                <SelectTrigger className="text-sm sm:text-base border-gray-300">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
@@ -121,86 +429,96 @@ export function ProductsContent() {
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Category Controls */}
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleExpandAll}
+                className="flex-1 text-xs sm:text-sm"
+              >
+                Expand All
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCollapseAll}
+                className="flex-1 text-xs sm:text-sm"
+              >
+                Collapse All
+              </Button>
+            </div>
           </div>
 
-          {/* Results count */}
-          <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600">
-            Showing {filteredAndSortedProducts.length} of {products.length} products
-            {searchQuery && ` for "${searchQuery}"`}
-            {selectedCategory !== "all" && ` in ${selectedCategory}`}
+          {/* Results Summary */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-4 border-t border-gray-100">
+            <div className="text-sm text-gray-600">
+              <span className="font-medium">{totalProducts}</span> products found
+              {deferredSearchQuery && (
+                <span> for <span className="font-medium">"{deferredSearchQuery}"</span></span>
+              )}
+              <span className="text-gray-400 ml-2">
+                • {expandedCategories.size} of {categories.length} categories expanded
+              </span>
+            </div>
+            
+            {(deferredSearchQuery || sortBy !== "name") && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClearFilters}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                Clear All Filters
+              </Button>
+            )}
           </div>
         </div>
 
-        {/* Products Grid */}
-        {filteredAndSortedProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {filteredAndSortedProducts.map((product) => (
-              <Card key={product.id} className="group hover:shadow-lg transition-shadow bg-white">
-                <div className="relative overflow-hidden rounded-t-lg">
-                  <Image
-                    src={product.getMainImage() || "/placeholder.svg"}
-                    alt={product.name}
-                    width={400}
-                    height={250}
-                    className="w-full h-48 sm:h-56 lg:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-                  />
-                  <Badge className="absolute top-3 left-3 bg-green-600 text-xs">{product.category}</Badge>
-                </div>
-                <CardContent className="p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">{product.name}</h3>
-                  <p className="text-xs sm:text-sm text-gray-500 mb-2">HSN: {product.hsCode}</p>
-                  <p className="text-gray-600 mb-3 sm:mb-4 line-clamp-3 text-sm sm:text-base leading-relaxed">
-                    {product.summary}
-                  </p>
+        {/* Category Sections */}
+        <main>
+          {categories.map((category: string) => (
+            <CategorySection
+              key={category}
+              category={category}
+              products={categorizedProducts[category] || []}
+              isExpanded={expandedCategories.has(category)}
+              onToggle={() => handleCategoryToggle(category)}
+              searchQuery={deferredSearchQuery}
+            />
+          ))}
 
-                  <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4">
-                    <div className="flex justify-between text-xs sm:text-sm">
-                      <span className="text-gray-500">Origin:</span>
-                      <span className="font-medium">{product.origin.region}</span>
-                    </div>
-                    <div className="flex justify-between text-xs sm:text-sm">
-                      <span className="text-gray-500">MOQ:</span>
-                      <span className="font-medium">{product.trade.moq}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
-                    <div className="text-xs sm:text-sm text-green-600 font-medium">{product.getDisplayPrice()}</div>
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="sm"
-                      className="w-full sm:w-auto text-xs sm:text-sm bg-transparent"
-                    >
-                      <Link href={`/products/${product.id}`}>View Details</Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-8 sm:py-12">
-            <div className="text-gray-400 mb-4">
-              <Search className="h-8 w-8 sm:h-12 sm:w-12 mx-auto" />
+          {/* No Results */}
+          {totalProducts === 0 && (
+            <div className="text-center py-16">
+              <div className="text-gray-400 mb-6">
+                <Search className="h-16 w-16 mx-auto" />
+              </div>
+              <h3 className="text-xl font-medium text-gray-900 mb-3">
+                No products found
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                We couldn't find any products matching your search criteria. 
+                Try adjusting your filters or search terms.
+              </p>
+              <Button onClick={handleClearFilters} size="lg">
+                Clear All Filters
+              </Button>
             </div>
-            <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-600 mb-4 text-sm sm:text-base">
-              Try adjusting your search criteria or browse all categories.
-            </p>
-            <Button
-              onClick={() => {
-                setSearchQuery("")
-                setSelectedCategory("all")
-              }}
-              className="w-full sm:w-auto"
-            >
-              Clear Filters
-            </Button>
-          </div>
-        )}
+          )}
+        </main>
+
+        {/* Back to Top */}
+        <div className="fixed bottom-6 right-6">
+          <Button
+            size="sm"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="rounded-full shadow-lg"
+          >
+            <ChevronUp className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   )

@@ -19,12 +19,6 @@ export default function RootLayout({
   return (
     <html lang="en" >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="//www.google-analytics.com" />
-        <meta name="theme-color" content="#16a34a" />
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className="antialiased">

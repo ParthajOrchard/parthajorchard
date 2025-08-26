@@ -11,7 +11,10 @@ export const metadata = {
 export default function ProductsPage() {
   return (
     <Suspense fallback={<ProductsLoading />}>
-      <ProductsContent />
+      <div className='bg-[rgb(249,250,251)]'>
+        <ProductsContent />
+      </div>
+      
     </Suspense>
   )
 }

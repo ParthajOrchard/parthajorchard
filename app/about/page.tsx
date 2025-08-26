@@ -1,14 +1,14 @@
-import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CheckCircle, Users, Globe, Award, Leaf, Shield } from "lucide-react"
+import { Users, Globe, Award, Leaf, Shield } from "lucide-react"
 import type { Metadata } from "next"
+import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "About Us - Leading Agricultural Export Company",
+  title: "About Us - PARTHAJ ORCHARD Pvt. Ltd.",
   description:
-    "Learn about PARTHAJ ORCHARD Pvt. Ltd., a leading exporter of premium agricultural products from India. Our mission, values, and commitment to quality.",
-  keywords: ["about us", "agricultural export", "company history", "mission", "values", "quality commitment"],
+    "Learn about PARTHAJ ORCHARD Pvt. Ltd., an emerging exporter of premium agricultural products from India. Discover our mission, values, and commitment to quality.",
+  keywords: ["about us", "agricultural export", "parthaj orchard", "mission", "values", "quality commitment", "indian exports"],
 }
 
 export default function AboutPage() {
@@ -16,57 +16,51 @@ export default function AboutPage() {
     {
       icon: Shield,
       title: "Quality Assurance",
-      description: "We maintain the highest quality standards through rigorous testing and certification processes.",
+      description: "We are committed to the highest quality standards, ensuring every product meets rigorous international benchmarks.",
     },
     {
       icon: Leaf,
       title: "Sustainability",
-      description: "Committed to sustainable farming practices and environmental responsibility in all our operations.",
+      description: "We champion sustainable farming practices to ensure environmental responsibility and long-term agricultural health.",
     },
     {
       icon: Users,
       title: "Customer Focus",
-      description: "Building long-term relationships with our clients through exceptional service and reliability.",
+      description: "Our goal is to build lasting relationships with our clients through exceptional service, reliability, and transparency.",
     },
     {
       icon: Globe,
       title: "Global Reach",
-      description: "Serving customers worldwide with efficient logistics and international trade expertise.",
+      description: "Leveraging our expertise in international trade, we efficiently connect Indian farms to markets worldwide.",
     },
   ]
 
   const achievements = [
-    { number: "25+", label: "Countries Served" },
-    { number: "500+", label: "Happy Clients" },
-    { number: "15+", label: "Years Experience" },
-    { number: "50+", label: "Product Varieties" },
+    { number: "10+", label: "Product Categories" },
+    { number: "2024", label: "Year Founded" },
+    { number: "100%", label: "Compliance Focus" },
+    { number: "Global", label: "Market Ambition" },
   ]
 
   const certifications = [
-    "FSSAI Certified",
+    "GST Registered",
     "APEDA Registered",
-    "ISO 22000:2018",
-    "HACCP Certified",
-    "Organic Certified",
-    "Fair Trade Certified",
+    "Importer-Exporter Code (IEC)",
+    "Certificate of Incorporation",
   ]
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="order-2 lg:order-1">
               <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">About PARTHAJ ORCHARD Pvt. Ltd.</h1>
               <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6 leading-relaxed">
-                For over 15 years, PARTHAJ ORCHARD Pvt. Ltd. has been at the forefront of agricultural exports from India,
-                connecting premium quality products with global markets. We specialize in millets, spices, grains, and
-                organic produce, ensuring that every shipment meets the highest international standards.
+                PARTHAJ ORCHARD Pvt. Ltd. is a newly established agricultural export company from India, founded in 2024. We are poised to connect global markets with premium quality products sourced directly from Indian farms.
               </p>
               <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed">
-                Our commitment to quality, sustainability, and customer satisfaction has made us a trusted partner for
-                importers worldwide, serving over 25 countries across six continents.
+                Our expertise spans a wide range of products including Fruits & Vegetables, Cereals, Honey, Dairy Products, and Cashews. Our commitment to quality, sustainability, and customer satisfaction positions us to become a trusted partner for importers worldwide.
               </p>
               <div className="grid grid-cols-2 gap-4 sm:gap-6">
                 {achievements.map((achievement, index) => (
@@ -80,11 +74,11 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="relative order-1 lg:order-2">
-              <Image
-                src="/placeholder.svg?height=500&width=600"
-                alt="PARTHAJ ORCHARD Pvt. Ltd. Facility"
-                width={600}
-                height={500}
+              <img
+                src="https://placehold.co/600x500/e2e8f0/e2e8f0?text=."
+                alt="PARTHAJ ORCHARD Pvt. Ltd. Operations"
+                width="600"
+                height="500"
                 className="rounded-lg shadow-lg w-full h-64 sm:h-80 lg:h-96 object-cover"
               />
             </div>
@@ -92,7 +86,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission & Vision */}
       <section className="py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
@@ -100,9 +93,7 @@ export default function AboutPage() {
               <CardContent className="p-6 sm:p-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-green-800 mb-3 sm:mb-4">Our Mission</h2>
                 <p className="text-green-700 leading-relaxed text-sm sm:text-base">
-                  To bridge the gap between Indian farmers and global markets by providing premium quality agricultural
-                  products while ensuring fair trade practices, sustainable farming, and exceptional customer service.
-                  We strive to be the most trusted name in agricultural exports.
+                  To bridge the gap between Indian farmers and global markets by providing premium quality agricultural products, while ensuring fair practices, sustainability, and exceptional customer service.
                 </p>
               </CardContent>
             </Card>
@@ -110,9 +101,7 @@ export default function AboutPage() {
               <CardContent className="p-6 sm:p-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-blue-800 mb-3 sm:mb-4">Our Vision</h2>
                 <p className="text-blue-700 leading-relaxed text-sm sm:text-base">
-                  To become the leading global platform for premium Indian agricultural products, promoting sustainable
-                  agriculture, supporting farming communities, and contributing to food security worldwide while
-                  maintaining the highest standards of quality and integrity.
+                  To become a leading global platform for premium Indian agricultural products, promoting sustainable agriculture and supporting farming communities while upholding the highest standards of quality and integrity.
                 </p>
               </CardContent>
             </Card>
@@ -120,7 +109,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values */}
       <section className="py-12 sm:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12">
@@ -143,37 +131,29 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Company Story */}
       <section className="py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <Image
-                src="/placeholder.svg?height=400&width=500"
+            <div className="order-2 lg:order-2">
+              <img
+                src="https://placehold.co/500x400/e2e8f0/e2e8f0?text=."
                 alt="Quality Control Process"
-                width={500}
-                height={400}
+                width="500"
+                height="400"
                 className="rounded-lg shadow-lg w-full h-64 sm:h-80 object-cover"
               />
             </div>
-            <div className="order-1 lg:order-2">
+            <div className="order-1 lg:order-1">
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Our Story</h2>
               <div className="space-y-3 sm:space-y-4 text-gray-600 text-sm sm:text-base leading-relaxed">
                 <p>
-                  Founded in 2009 by a team of agricultural experts and international trade professionals, AgriExport
-                  Pro began with a simple vision: to showcase the finest agricultural products that India has to offer
-                  to the global market.
+                  Founded in 2024 by directors Rajendra Manchu Jadhav and Parth Rajendra Jadhav, PARTHAJ ORCHARD Pvt. Ltd. was born from a vision to showcase the finest agricultural products of India to the world.
                 </p>
                 <p>
-                  Starting with just a handful of products and a small team, we have grown into one of India's most
-                  trusted agricultural export companies. Our success is built on strong relationships with farmers,
-                  rigorous quality control, and an unwavering commitment to customer satisfaction.
+                  Though young, our company is built on a strong foundation of expertise in agriculture and international trade. We are dedicated to establishing robust relationships with farmers to ensure quality control from the ground up and deliver on our promise of excellence to every client.
                 </p>
                 <p>
-                  Today, we work directly with over 200 farmers and cooperatives across India, ensuring fair prices for
-                  producers while delivering exceptional quality to our international clients. Our state-of-the-art
-                  processing and packaging facilities ensure that every product meets international food safety
-                  standards.
+                  Our journey has just begun, and we are excited to grow into one of India's most trusted agricultural export companies, driven by our commitment to quality, integrity, and customer satisfaction.
                 </p>
               </div>
             </div>
@@ -181,63 +161,26 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Certifications */}
       <section className="py-12 sm:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Certifications & Compliance</h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              We maintain the highest standards of quality and compliance through various national and international
-              certifications.
+              We operate with full transparency and are compliant with all necessary national regulations for export.
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             {certifications.map((cert, index) => (
-              <div key={index} className="text-center">
-                <div className="bg-green-100 p-3 sm:p-4 rounded-lg mb-2">
-                  <Award className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 mx-auto" />
-                </div>
-                <Badge variant="secondary" className="text-xs sm:text-sm">
-                  {cert}
-                </Badge>
-              </div>
+              <Badge key={index} variant="secondary" className="text-sm sm:text-base px-4 py-2">
+                <Award className="h-4 w-4 mr-2" />
+                {cert}
+              </Badge>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Quality Commitment */}
-      <section className="py-12 sm:py-16 bg-green-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Our Quality Commitment</h2>
-            <p className="text-lg sm:text-xl text-green-100 max-w-3xl mx-auto leading-relaxed">
-              Every product that leaves our facility undergoes rigorous quality checks to ensure it meets international
-              standards and exceeds customer expectations.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <div className="text-center">
-              <CheckCircle className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4" />
-              <h3 className="text-lg sm:text-xl font-semibold mb-2">Source Verification</h3>
-              <p className="text-green-100 text-sm sm:text-base leading-relaxed">
-                Direct partnerships with verified farmers and cooperatives ensuring traceability from farm to export.
-              </p>
-            </div>
-            <div className="text-center">
-              <CheckCircle className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4" />
-              <h3 className="text-lg sm:text-xl font-semibold mb-2">Laboratory Testing</h3>
-              <p className="text-green-100 text-sm sm:text-base leading-relaxed">
-                Comprehensive testing for pesticide residues, heavy metals, and microbiological contamination.
-              </p>
-            </div>
-            <div className="text-center sm:col-span-2 lg:col-span-1">
-              <CheckCircle className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4" />
-              <h3 className="text-lg sm:text-xl font-semibold mb-2">International Standards</h3>
-              <p className="text-green-100 text-sm sm:text-base leading-relaxed">
-                Compliance with FDA, EU, and other international food safety and quality regulations.
-              </p>
-            </div>
+          <div className="text-center mt-8">
+             <a href="/certificates">
+                <Button>View All Certificates</Button>
+             </a>
           </div>
         </div>
       </section>

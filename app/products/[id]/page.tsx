@@ -23,8 +23,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  const product = getProductById(resolvedParams.id)
+  const product = getProductById(params.id)
+
 
   if (!product) {
     return {
@@ -36,8 +36,8 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const resolvedParams = await params;
-  const product = getProductById(resolvedParams.id)
+  const product = getProductById(params.id)
+
 
   if (!product) {
     notFound()
@@ -48,32 +48,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[rgb(249,250,251)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          {/* Breadcrumb */}
-          <nav className="mb-4 sm:mb-6" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-2 text-sm">
-              <li>
-                <Link href="/" className="text-gray-500 hover:text-gray-700">
-                  Home
-                </Link>
-              </li>
-              <li className="text-gray-400">/</li>
-              <li>
-                <Link href="/products" className="text-gray-500 hover:text-gray-700">
-                  Products
-                </Link>
-              </li>
-              <li className="text-gray-400">/</li>
-              <li>
-                <Link href={`/products?category=${product.category}`} className="text-gray-500 hover:text-gray-700">
-                  {product.category}
-                </Link>
-              </li>
-              <li className="text-gray-400">/</li>
-              <li className="text-gray-900 font-medium">{product.name}</li>
-            </ol>
-          </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
             {/* Product Images */}
