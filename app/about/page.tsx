@@ -77,7 +77,7 @@ export default function AboutPage() {
             <div className="relative order-1 lg:order-2">
 
               <Image
-                  src="https://placehold.co/600x500/e2e8f0/e2e8f0?text=."
+                  src="/logo.png"
                   alt="PARTHAJ ORCHARD Pvt. Ltd. Operations"
                   width="600"
                   height="500"
@@ -138,7 +138,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="order-2 lg:order-2">
               <Image
-                src="https://placehold.co/500x400/e2e8f0/e2e8f0?text=."
+                src="/logo.png"
                 alt="Quality Control Process"
                 width="500"
                 height="400"
