@@ -90,7 +90,7 @@ export const defaultMetadata: Metadata = {
 
 export function generateProductMetadata(product: Product): Metadata {
   const title = `${product.name} - Premium ${product.category} Export from India`;
-  const description = `${product.summary} HSN Code: ${product.hsCode}. Origin: ${product.origin.region}, India. MOQ: ${product.trade.moq}. Certified by ${product.certifications.join(", ")}.`;
+  const description = `${product.summary} HSN Code: ${product.hsCode}. Origin: ${product.origin}, India. MOQ: ${product.trade}. Certified by ${product.certifications.join(", ")}.`;
   const openGraphData: ProductOpenGraph = {
     title,
     description,

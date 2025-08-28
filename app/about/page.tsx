@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "About Us - PARTHAJ ORCHARD Pvt. Ltd.",
   description:
     "Learn about PARTHAJ ORCHARD Pvt. Ltd., an emerging exporter of premium agricultural products from India. Discover our mission, values, and commitment to quality.",
-  keywords: ["about us", "agricultural export", "parthaj orchard", "mission", "values", "quality commitment", "indian exports"],
+  keywords: ["SweetLime (Mosambi)", "agricultural export", "parthaj orchard", "parthaj orchard import export", "quality commitment", "indian exports"],
 }
 
 export default function AboutPage() {

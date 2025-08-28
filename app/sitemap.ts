@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next"
 import { products, getAllCategories } from "@/lib/data"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://agriexportpro.com"
+  const baseUrl = "https://localhost:3000"
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [

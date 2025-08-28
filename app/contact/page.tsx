@@ -149,12 +149,11 @@ export default function ContactPage() {
                           <SelectValue placeholder="Select product category" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="fruits-vegetables">Fruits & Vegetables</SelectItem>
-                          <SelectItem value="cereals">Cereals (Rice, Wheat, etc.)</SelectItem>
-                          <SelectItem value="honey">Honey</SelectItem>
-                          <SelectItem value="dairy">Dairy Products</SelectItem>
-                          <SelectItem value="cashew">Cashew</SelectItem>
-                          <SelectItem value="processed-foods">Other Processed Foods</SelectItem>
+                          <SelectItem value="fruits">Fruits</SelectItem>
+                          <SelectItem value="grains">Grains (Rice, Wheat, etc.)</SelectItem>
+                          <SelectItem value="vegetables">Vegetables</SelectItem>
+                          <SelectItem value="oilseeds">Oilseeds (Sunflower Seeds, Mustard Seeds, Peanuts, Soybean, etc)</SelectItem>
+                          <SelectItem value="spices">Spices</SelectItem>
                           <SelectItem value="multiple">Multiple Categories</SelectItem>
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
