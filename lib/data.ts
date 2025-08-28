@@ -985,8 +985,8 @@ const productsData: IProduct[] = [
     category: "Vegetables",
     subCategory: "Bulb Vegetables",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/vege-onion/image (1).jpeg?height=600&width=800",
+      gallery: ["/products/vege-onion/image (2).jpeg?height=400&width=600", "/products/vege-onion/image (3).jpeg?height=400&width=600"],
     },
     summary: "High-quality fresh onions, a staple ingredient worldwide. Known for their pungency and flavor. Sourced from prime agricultural regions.",
     specs: {
@@ -1030,8 +1030,8 @@ const productsData: IProduct[] = [
     category: "Vegetables",
     subCategory: "Tuber Vegetables",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/vege-potato/image (1).jpeg?height=600&width=800",
+      gallery: ["/products/vege-potato/image (2).jpg?height=400&width=600", "/products/vege-potato/image (3).jpg?height=400&width=600"],
     },
     summary: "Versatile and nutritious fresh potatoes, suitable for table consumption, processing into fries, and chips. Washed and graded for export.",
     specs: {
@@ -1075,8 +1075,8 @@ const productsData: IProduct[] = [
     category: "Vegetables",
     subCategory: "Rhizomes",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/vege-ginger/image (1).jpeg?height=600&width=800",
+      gallery: ["/products/vege-ginger/image (2).jpeg?height=400&width=600", "/products/vege-ginger/image (3).jpeg?height=400&width=600"],
     },
     summary: "Aromatic and pungent fresh ginger, washed and treated for export. Widely used as a spice in cooking and for its medicinal benefits.",
     specs: {
@@ -1120,8 +1120,8 @@ const productsData: IProduct[] = [
     category: "Oilseeds",
     subCategory: "Nuts",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/seeds-peanuts/image (1).jpg?height=600&width=800",
+      gallery: ["/products/seeds-peanuts/image (2).jpg?height=400&width=600", "/products/seeds-peanuts/image (3).jpg?height=400&width=600"],
     },
     summary: "High-quality peanut kernels, a rich source of oil and protein. Used for oil extraction, snacking, and food manufacturing.",
     specs: {
@@ -1166,8 +1166,8 @@ const productsData: IProduct[] = [
     category: "Oilseeds",
     subCategory: "Seeds",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/seeds-seseme/image (1).jpg?height=600&width=800",
+      gallery: ["/products/seeds-seseme/image (2).jpg?height=400&width=600", "/products/seeds-seseme/image (3).jpg?height=400&width=600"],
     },
     summary: "Natural and hulled sesame seeds, known for their high oil content and nutty flavor. Used in baking, confectionery, and for tahini production.",
     specs: {
@@ -1259,8 +1259,8 @@ const productsData: IProduct[] = [
     category: "Vegetables",
     subCategory: "Fruit Vegetables",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/vege-ladyfinger/image (1).jpg?height=600&width=800",
+      gallery: ["/products/vege-ladyfinger/image (2).jpg?height=400&width=600", "/products/vege-ladyfinger/image (3).jpg?height=400&width=600"],
     },
     summary: "Fresh, tender green okra pods, carefully selected and packed for export. A popular vegetable in Middle Eastern, Asian, and African cuisines.",
     specs: {
@@ -1304,8 +1304,8 @@ const productsData: IProduct[] = [
     category: "Vegetables",
     subCategory: "Fruit Vegetables",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/vege-tomato/image (1).jpg?height=600&width=800",
+      gallery: ["/products/vege-tomato/image (2).jpg?height=400&width=600", "/products/vege-tomato/image (3).jpg?height=400&width=600"],
     },
     summary: "Firm, vibrant red tomatoes, cultivated for their rich flavor and long shelf life. Suitable for fresh consumption and processing.",
     specs: {
@@ -1349,8 +1349,8 @@ const productsData: IProduct[] = [
     category: "Oilseeds",
     subCategory: "Beans",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/seeds-soybean/image (1).jpg?height=600&width=800",
+      gallery: ["/products/seeds-soybean/image (2).jpg?height=400&width=600", "/products/seeds-soybean/image (3).jpg?height=400&width=600"],
     },
     summary: "High-protein soybeans, a versatile crop used for producing oil, animal feed (soybean meal), and a variety of food products like tofu and soy milk.",
     specs: {
@@ -1395,8 +1395,8 @@ const productsData: IProduct[] = [
     category: "Oilseeds",
     subCategory: "Seeds",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/seeds-musturd/image (1).jpg?height=600&width=800",
+      gallery: ["/products/seeds-musturd/image (2).jpg?height=400&width=600", "/products/seeds-musturd/image (3).jpg?height=400&width=600"],
     },
     summary: "Pungent and flavorful mustard seeds, used as a spice in cooking, for oil extraction, and in the production of mustard paste.",
     specs: {
@@ -1487,8 +1487,8 @@ const productsData: IProduct[] = [
     category: "Vegetables",
     subCategory: "Fruit Vegetables",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/vege-chilli/image (1).jpg?height=600&width=800",
+      gallery: ["/products/vege-chilli/image (2).jpg?height=400&width=600", "/products/vege-chilli/image (3).jpg?height=400&width=600"],
     },
     summary: "Fresh and pungent green chilies, a staple ingredient for adding heat and flavor to cuisines worldwide. Carefully packed to retain freshness.",
     specs: {
@@ -1532,8 +1532,8 @@ const productsData: IProduct[] = [
     category: "Vegetables",
     subCategory: "Pod Vegetables",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/vege-moringa/image (1).jpeg?height=600&width=800",
+      gallery: ["/products/vege-moringa/image (2).jpeg?height=400&width=600", "/products/vege-moringa/image (3).jpeg?height=400&width=600"],
     },
     summary: "Fresh, long, and tender drumstick pods (Moringa), highly valued for their nutritional content and use in traditional dishes and soups.",
     specs: {
@@ -1577,8 +1577,8 @@ const productsData: IProduct[] = [
     category: "Oilseeds",
     subCategory: "Seeds",
     images: {
-      cover: "/placeholder.svg?height=600&width=800",
-      gallery: ["/placeholder.svg?height=400&width=600", "/placeholder.svg?height=400&width=600"],
+      cover: "/products/seeds-sunflower/image (1).jpg?height=600&width=800",
+      gallery: ["/products/seeds-sunflower/image (2).jpg?height=400&width=600", "/products/seeds-sunflower/image (3).jpg?height=400&width=600"],
     },
     summary: "Nutritious sunflower seeds, used for high-quality oil extraction and as a healthy snack. A good source of vitamin E and healthy fats.",
     specs: {
