@@ -27,7 +27,7 @@ export function Footer() {
               </div>
               <div className="flex items-center space-x-2">
                 <Globe className="h-4 w-4 text-green-400 flex-shrink-0" />
-                <span className="text-xs sm:text-sm">www.parthajorchard.com</span>
+                <span className="text-xs sm:text-sm">www.parthajorchardpvtltd.com</span>
               </div>
             </div>
           </div>
